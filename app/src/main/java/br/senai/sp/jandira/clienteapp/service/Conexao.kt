@@ -2,11 +2,10 @@ package br.senai.sp.jandira.clienteapp.service
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
-class RetrofitFactory {
+class Conexao {
 
-    private  val BASE_URL = "https://app1.celso.dev.br/clientes-app/api/"
+    private  val BASE_URL = "https://srv945707.hstgr.cloud/api/"
 
     private val retrofitFactory =
         Retrofit

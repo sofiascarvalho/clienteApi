@@ -1,34 +1,40 @@
 package br.senai.sp.jandira.clienteapp.cliente
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.clienteapp.cliente.cliente.componentes.BarraInferior
+import br.senai.sp.jandira.clienteapp.cliente.cliente.componentes.BotaoFlutuante
+import br.senai.sp.jandira.clienteapp.cliente.cliente.componentes.ClienteFrom
 import br.senai.sp.jandira.clienteapp.cliente.cliente.componentes.Conteudo
 import br.senai.sp.jandira.clienteapp.ui.theme.ClienteAppTheme
 
 @Composable
 fun ListaDeClientes(modifier: Modifier = Modifier){
+
+    var controleNavegacao = rememberNavController()
+
     Scaffold (
         topBar = {
             BarraDeTiTulo()
         },
         bottomBar = {
-            BarraInferior()
+            BarraInferior(controleNavegacao)
         },
         floatingActionButton = {
-            BotoaoFlutuante()
+            BotaoFlutuante(controleNavegacao)
         },
         content = { padding ->
-            //garante a margem na parte de cima
-            Conteudo(padding)
+            NavHost(navController = controleNavegacao,
+                startDestination = "conteudo"){
+                composable(route = "conteudo"){ Conteudo(padding)}
+                composable(route = "cadastro") { ClienteFrom(padding, controleNavegacao) }
+            }
         }
     )
 }
@@ -36,7 +42,7 @@ fun ListaDeClientes(modifier: Modifier = Modifier){
 
 
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ListaDeClientesPreview(){
     ClienteAppTheme {

@@ -34,13 +34,13 @@ fun BarraDeTiTulo (modifier: Modifier = Modifier) {
                     .fillMaxWidth()
             ) {
                 Column {
-                    Text(text = "Rebeka Marcelino do Prado",
+                    Text(text = "Sofia Carvalho",
                         fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onPrimary,
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
-                        text = "rebeka.marcleino.prado@gmail.com",
+                        text = "sofia.carvalho@gmail.com",
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onPrimary,
                         style = MaterialTheme.typography.bodyMedium

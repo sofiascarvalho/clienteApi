@@ -151,12 +151,12 @@ fun BarraDeTiTulo (modifier: Modifier = Modifier) {
             ) {
                 Column {
                     Text(
-                        text = "Rebeka Marcelino do Prado",
+                        text = "Sofia Carvalho",
                         fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        text = "rebeka.marcelino.prado@gmail.com",
+                        text = "sofia.carvalho@gmail.com",
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
