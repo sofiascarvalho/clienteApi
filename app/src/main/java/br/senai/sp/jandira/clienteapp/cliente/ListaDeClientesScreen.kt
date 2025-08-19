@@ -15,11 +15,11 @@ import br.senai.sp.jandira.clienteapp.cliente.cliente.componentes.Conteudo
 import br.senai.sp.jandira.clienteapp.ui.theme.ClienteAppTheme
 
 @Composable
-fun ListaDeClientes(modifier: Modifier = Modifier){
+fun ListaDeClientes(){
 
     var controleNavegacao = rememberNavController()
 
-    Scaffold (
+    Scaffold ( //scaffold cria a estrutura com "gavetas", onde vamos atribuir as funcoes
         topBar = {
             BarraDeTiTulo()
         },

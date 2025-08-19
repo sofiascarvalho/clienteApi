@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -21,8 +22,8 @@ interface ClienteService {
     @PUT("clientes")
     fun atualizar(@Body cliente: Cliente): Call<Cliente>
 
-    @DELETE("clientes/{id}")
-    fun exculir(@Path("id") id: Long): Call<Unit>
+    @HTTP(method = "DELETE", path = "clientes", hasBody = true)
+    fun exculir(@Body cliente: Cliente): Unit
 
     @GET("clientes/{id}")
     fun exibirPorId(@Path("id") id: Long): Call<Cliente>

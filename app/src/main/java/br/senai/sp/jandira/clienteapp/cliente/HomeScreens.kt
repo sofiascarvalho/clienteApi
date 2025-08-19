@@ -167,7 +167,7 @@ fun BarraDeTiTulo (modifier: Modifier = Modifier) {
                     shape = CircleShape
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.perfilbeka),
+                        painter = painterResource(R.drawable.fotoperfilmobile),
                         contentDescription = "foto perfil"
                     )
                 }

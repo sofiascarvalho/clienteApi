@@ -15,8 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.clienteapp.model.Cliente
+import br.senai.sp.jandira.clienteapp.service.ClienteService
 import br.senai.sp.jandira.clienteapp.service.Conexao
 import br.senai.sp.jandira.clienteapp.ui.theme.ClienteAppTheme
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +47,9 @@ fun Conteudo (paddingValues: PaddingValues) {
         mutableStateOf(listOf<Cliente>())
     }
 
-    LaunchedEffect(Dispatchers.IO) {
+
+
+    LaunchedEffect(Dispatchers.IO) { //faz a chamada para a api
         clientes = clienteApi.exibirTodos().await()
     }
 
@@ -65,41 +70,76 @@ fun Conteudo (paddingValues: PaddingValues) {
             Spacer(modifier = Modifier.width(4.dp))
         }
         Spacer(modifier = Modifier.height(5.dp))
-        LazyColumn {
+        LazyColumn (
+            contentPadding = PaddingValues(bottom = 80.dp)
+        ){ // a cada interacao da lazycolumn, um novo card é gerado
             items(clientes){ cliente ->
-                Card (
-                    modifier = Modifier
-                        .padding(
-                            start = 8.dp,
-                            end = 8.dp,
-                            bottom = 8.dp)
-                        .fillMaxWidth()
-                        .height(80.dp)
-                ){
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(
-                                text = cliente.nome,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                text = cliente.email,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer)
-                        }
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "texto",
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
+                CardCliente(cliente, clienteApi)
             }
+        }
+    }
+}
+
+@Composable
+private fun CardCliente(
+    cliente: Cliente,
+    clienteApi: ClienteService
+) {
+    // variável que determina se a messagem deve aparecer
+    var mostrarMensagemDelete by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier
+            .padding(
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 8.dp
+            )
+            .fillMaxWidth()
+            .height(80.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = cliente.nome,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Text(
+                    text = cliente.email,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            IconButton(
+                onClick = {
+                    mostrarMensagemDelete = true
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete",
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
+        if (mostrarMensagemDelete) {
+            AlertDialog(
+                onDismissRequest = {
+                    mostrarMensagemDelete = false
+                },
+                title = {
+                    Text(text = "Alerta!")
+                },
+                text = {
+                    Text(text = "Tem certeza que deseja excluir o cliente\n\n${cliente.nome}?")
+                },
+
+            )
         }
     }
 }
