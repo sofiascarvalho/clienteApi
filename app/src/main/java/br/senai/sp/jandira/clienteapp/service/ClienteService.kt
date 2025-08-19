@@ -2,6 +2,7 @@ package br.senai.sp.jandira.clienteapp.service
 
 import br.senai.sp.jandira.clienteapp.model.Cliente
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -23,7 +24,7 @@ interface ClienteService {
     fun atualizar(@Body cliente: Cliente): Call<Cliente>
 
     @HTTP(method = "DELETE", path = "clientes", hasBody = true)
-    fun exculir(@Body cliente: Cliente): Unit
+    suspend fun exculir(@Body cliente: Cliente): Response<Void>
 
     @GET("clientes/{id}")
     fun exibirPorId(@Path("id") id: Long): Call<Cliente>

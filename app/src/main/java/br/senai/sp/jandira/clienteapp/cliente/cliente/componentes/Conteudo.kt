@@ -15,12 +15,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,6 +38,8 @@ import br.senai.sp.jandira.clienteapp.service.ClienteService
 import br.senai.sp.jandira.clienteapp.service.Conexao
 import br.senai.sp.jandira.clienteapp.ui.theme.ClienteAppTheme
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.await
 
 @Composable
@@ -137,6 +141,21 @@ private fun CardCliente(
                 },
                 text = {
                     Text(text = "Tem certeza que deseja excluir o cliente\n\n${cliente.nome}?")
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Warning,
+                        contentDescription = "Alerta"
+                    )
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        GlobalScope.launch(Dispatchers.IO){
+                            val deleteCliente = clienteApi
+                                .exculir(cliente)
+                            mostrarMensagemDelete=true
+                        }
+                    }) { }
                 },
 
             )
